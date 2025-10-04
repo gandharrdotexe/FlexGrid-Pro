@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ThemeProvider } from '@/app/context/ThemeContext';
 import ThemeToggle from '@/app/components/ThemeToggle';
 
@@ -7,6 +7,14 @@ import ThemeToggle from '@/app/components/ThemeToggle';
 type Mode = 'home' | 'predefined' | 'custom' | 'preview';
 
 const Index = () => {
+  useEffect(() => {
+    // Dynamically inject Google Fonts link
+    const link = document.createElement('link');
+    link.href = 'https://fonts.googleapis.com/css2?family=Bitcount+Prop+Single:wght@100..900&family=Press+Start+2P&display=swap';
+    link.rel = 'stylesheet';
+    document.head.appendChild(link);
+  }, []);
+
   return (
     <ThemeProvider>
       <MainApp />
@@ -170,7 +178,7 @@ ${layout.items.map((item, index) => {
   };
 
   return (
-    <div className="min-h-screen bg-background transition-all duration-500 relative overflow-hidden">
+    <div className="min-h-screen bg-background press-start-2p-regular transition-all duration-500 relative overflow-hidden">
       {/* Pixel grid background pattern */}
       <div className="absolute inset-0 pointer-events-none opacity-5">
         <div className="w-full h-full" style={{
@@ -196,14 +204,14 @@ ${layout.items.map((item, index) => {
             <div className="flex items-center space-x-6">
               <button 
                 onClick={() => setMode('home')}
-                className="text-2xl font-pixel font-bold text-primary hover:scale-105 transition-all duration-200 pixel-glitch"
+                className="text-2xl press-start-2p-regular font-bold text-primary hover:scale-105 transition-all duration-200 pixel-glitch"
               >
                 ⛏ FlexGrid Pro
               </button>
               {mode !== 'home' && (
                 <button
                   onClick={() => setMode('home')}
-                  className="btn-minecraft text-xs"
+                  className="btn-minecraft text-xs press-start-2p-regular"
                 >
                   ← Back
                 </button>
@@ -221,7 +229,7 @@ ${layout.items.map((item, index) => {
             {/* Hero Section */}
             <div className="space-y-8 relative">
               <div className="text-8xl pixel-float">⛏</div>
-              <h1 className="text-4xl md:text-5xl font-pixel font-bold text-primary leading-tight">
+              <h1 className="text-4xl md:text-5xl press-start-2p-regular font-bold text-primary leading-tight">
                 Minecraft Grid Builder
               </h1>
               <div className="pixel-box max-w-4xl mx-auto p-6">
@@ -232,12 +240,11 @@ ${layout.items.map((item, index) => {
               </div>
             </div>
 
-            {/* Font Test Section */}
             <div className="space-y-4">
               <div className="pixel-box max-w-2xl mx-auto p-6">
-                <h3 className="text-lg font-pixel text-foreground mb-4">🔤 Font Test</h3>
+                 <h3 className="text-lg press-start-2p-regular text-foreground mb-4">🔤 Font Test</h3>
                 <div className="space-y-3">
-                  <div className="press-start-2p-regular text-sm text-primary">Press Start 2P: Retro Gaming Font</div>
+                  <div className="press-start-2p-regular text-sm text-primary ">Press Start 2P: Retro Gaming Font</div>
                   <div className="bitcount-prop-single text-base text-foreground">Bitcount Prop Single: Modern Variable Font</div>
                   <div className="bitcount-prop-single-bold text-lg text-primary">Bitcount Prop Single Bold: Heavy Weight</div>
                   <div className="font-bitcount text-sm text-muted-foreground">Tailwind font-bitcount: Utility Class</div>
@@ -246,6 +253,7 @@ ${layout.items.map((item, index) => {
               </div>
             </div>
 
+
             {/* Mode Selection */}
             <div className="grid md:grid-cols-2 gap-10 max-w-5xl mx-auto">
               <div
@@ -253,7 +261,7 @@ ${layout.items.map((item, index) => {
                 className="card-minecraft group cursor-pointer p-10"
               >
                 <div className="text-6xl mb-6 pixel-glitch">📦</div>
-                <h3 className="text-xl md:text-2xl font-pixel font-bold text-foreground mb-6">
+                <h3 className="text-xl md:text-2xl press-start-2p-regular font-bold text-foreground mb-6">
                   Templates
                 </h3>
                 <p className="text-sm md:text-base font-body text-muted-foreground leading-relaxed">
@@ -266,7 +274,7 @@ ${layout.items.map((item, index) => {
                 className="card-minecraft group cursor-pointer p-10"
               >
                 <div className="text-6xl mb-6 pixel-glitch" style={{ animationDelay: '1s' }}>🔨</div>
-                <h3 className="text-xl md:text-2xl font-pixel font-bold text-foreground mb-6">
+                <h3 className="text-xl md:text-2xl press-start-2p-regular font-bold text-foreground mb-6">
                   Custom Build
                 </h3>
                 <p className="text-sm md:text-base font-body text-muted-foreground leading-relaxed">
@@ -279,17 +287,17 @@ ${layout.items.map((item, index) => {
             <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
               <div className="card-minecraft p-8">
                 <div className="text-4xl mb-4 pixel-float">⚡</div>
-                <h4 className="font-pixel text-sm text-foreground mb-3">Fast</h4>
+                <h4 className="press-start-2p-regular text-sm text-foreground mb-3">Fast</h4>
                 <p className="font-body text-sm text-muted-foreground">Real-time layouts!</p>
               </div>
               <div className="card-minecraft p-8">
                 <div className="text-4xl mb-4 pixel-float" style={{ animationDelay: '1s' }}>🎮</div>
-                <h4 className="font-pixel text-sm text-foreground mb-3">Blocky</h4>
+                <h4 className="press-start-2p-regular text-sm text-foreground mb-3">Blocky</h4>
                 <p className="font-body text-sm text-muted-foreground">Pixel perfect!</p>
               </div>
               <div className="card-minecraft p-8">
                 <div className="text-4xl mb-4 pixel-float" style={{ animationDelay: '2s' }}>📋</div>
-                <h4 className="font-pixel text-sm text-foreground mb-3">Export</h4>
+                <h4 className="press-start-2p-regular text-sm text-foreground mb-3">Export</h4>
                 <p className="font-body text-sm text-muted-foreground">Copy code fast!</p>
               </div>
             </div>
@@ -300,7 +308,7 @@ ${layout.items.map((item, index) => {
           <div className="space-y-12 animate-slide-in-up">
             <div className="text-center">
               <div className="text-6xl mb-4 pixel-glitch">📦</div>
-              <h2 className="text-3xl md:text-4xl font-pixel font-bold text-foreground mb-6">
+              <h2 className="text-3xl md:text-4xl press-start-2p-regular font-bold text-foreground mb-6">
                 Layout Templates
               </h2>
               <div className="pixel-box max-w-2xl mx-auto p-6">
@@ -321,7 +329,7 @@ ${layout.items.map((item, index) => {
           <div className="space-y-12 animate-slide-in-up">
             <div className="text-center">
               <div className="text-6xl mb-4 pixel-glitch">⚒</div>
-              <h2 className="text-3xl md:text-4xl font-pixel font-bold text-foreground mb-6">
+              <h2 className="text-3xl md:text-4xl press-start-2p-regular font-bold text-foreground mb-6">
                 Your Creation
               </h2>
               <div className="pixel-box max-w-2xl mx-auto mb-6 p-6">
@@ -331,7 +339,7 @@ ${layout.items.map((item, index) => {
               </div>
               <button
                 onClick={() => setMode('predefined')}
-                className="btn-minecraft"
+                className="btn-minecraft press-start-2p-regular"
               >
                 ← Back
               </button>
@@ -339,7 +347,7 @@ ${layout.items.map((item, index) => {
 
             <div className="grid lg:grid-cols-2 gap-8">
               <div className="space-y-4">
-                <h3 className="text-base font-pixel text-foreground">Preview</h3>
+                <h3 className="text-base press-start-2p-regular text-foreground">Preview</h3>
                 <FlexboxPreview layout={currentLayout} />
               </div>
 
