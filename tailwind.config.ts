@@ -20,7 +20,9 @@ export default {
 		extend: {
 			fontFamily: {
 				'pixel': ['Courier New', 'monospace'],
-				'body': ['Inter', 'system-ui', 'sans-serif']
+				'body': ['Inter', 'system-ui', 'sans-serif'],
+				'bitcount': ['Bitcount Prop Single', 'system-ui'],
+				'press-start': ['Press Start 2P', 'system-ui']
 			},
 			colors: {
 				border: 'hsl(var(--border))',
