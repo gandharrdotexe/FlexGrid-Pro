@@ -123,20 +123,47 @@ All colors MUST be HSL.
 @layer utilities {
   /* Minecraft-style button */
   .btn-minecraft {
-    @apply bg-primary text-primary-foreground px-6 py-3 font-semibold relative overflow-hidden;
-    border: 4px solid hsl(var(--pixel-border));
-    box-shadow: 4px 4px 0 hsl(var(--pixel-shadow));
-    transition: all 0.1s ease;
+    background-color: hsl(var(--primary)) !important;
+    color: hsl(var(--primary-foreground)) !important;
+    padding: 0.75rem 1.5rem !important;
+    font-weight: 600 !important;
+    position: relative !important;
+    overflow: hidden !important;
+    border: 4px solid hsl(var(--pixel-border)) !important;
+    box-shadow: 4px 4px 0 hsl(var(--pixel-shadow)) !important;
+    transition: all 0.1s ease !important;
+    font-family: "Press Start 2P", monospace, system-ui !important;
+    display: inline-block !important;
+    text-align: center !important;
+    text-decoration: none !important;
+    cursor: pointer !important;
+    border-radius: 0 !important;
+    outline: none !important;
+  }
+  
+  /* Alternative button class for testing */
+  .minecraft-btn {
+    background-color: #22c55e !important;
+    color: white !important;
+    padding: 12px 24px !important;
+    font-weight: 600 !important;
+    border: 4px solid #166534 !important;
+    box-shadow: 4px 4px 0 #166534 !important;
+    font-family: "Press Start 2P", monospace !important;
+    cursor: pointer !important;
+    display: inline-block !important;
+    text-align: center !important;
+    transition: all 0.1s ease !important;
   }
   
   .btn-minecraft:hover {
-    transform: translate(2px, 2px);
-    box-shadow: 2px 2px 0 hsl(var(--pixel-shadow));
+    transform: translate(2px, 2px) !important;
+    box-shadow: 2px 2px 0 hsl(var(--pixel-shadow)) !important;
   }
 
   .btn-minecraft:active {
-    transform: translate(4px, 4px);
-    box-shadow: 0 0 0 hsl(var(--pixel-shadow));
+    transform: translate(4px, 4px) !important;
+    box-shadow: 0 0 0 hsl(var(--pixel-shadow)) !important;
   }
 
   /* Minecraft card style */

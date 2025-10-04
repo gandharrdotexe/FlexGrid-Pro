@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useEffect } from 'react';
-import { ThemeProvider } from '@/app/context/ThemeContext';
+import { ThemeProvider, useTheme } from '@/app/context/ThemeContext';
 import ThemeToggle from '@/app/components/ThemeToggle';
 
 
@@ -26,6 +26,7 @@ const MainApp = () => {
   const [mode, setMode] = useState<Mode>('home');
   const [currentLayout, setCurrentLayout] = useState<any>(null);
   const [codeMode, setCodeMode] = useState<'tailwind' | 'external'>('tailwind');
+  const { isDark } = useTheme();
 
   const generateHTML = (layout: any) => {
     if (!layout) return '';
@@ -198,7 +199,12 @@ ${layout.items.map((item, index) => {
       </div>
 
       {/* Header */}
-      <header className="relative bg-card border-b-4 border-pixel-border">
+      <header 
+        className="relative bg-card border-b-4" 
+        style={{ 
+          borderColor: isDark ? '#22c55e' : '#000000' 
+        }}
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-6">
@@ -211,13 +217,13 @@ ${layout.items.map((item, index) => {
               {mode !== 'home' && (
                 <button
                   onClick={() => setMode('home')}
-                  className="btn-minecraft text-xs press-start-2p-regular"
+                  className="btn-minecraft text-xs"
                 >
                   ← Back
                 </button>
               )}
             </div>
-            <ThemeToggle />
+            <ThemeToggle/>
           </div>
         </div>
       </header>
@@ -249,6 +255,27 @@ ${layout.items.map((item, index) => {
                   <div className="bitcount-prop-single-bold text-lg text-primary">Bitcount Prop Single Bold: Heavy Weight</div>
                   <div className="font-bitcount text-sm text-muted-foreground">Tailwind font-bitcount: Utility Class</div>
                   <div className="font-press-start text-xs text-accent">Tailwind font-press-start: Utility Class</div>
+                  
+                  {/* Button Test */}
+                  <div className="mt-4 space-y-2">
+                    <div className="text-sm text-foreground">Button Test:</div>
+                    <button className="btn-minecraft text-xs">Test btn-minecraft</button>
+                    <button className="minecraft-btn text-xs">Test minecraft-btn</button>
+                    <button 
+                      className="text-xs"
+                      style={{
+                        backgroundColor: 'hsl(var(--primary))',
+                        color: 'hsl(var(--primary-foreground))',
+                        padding: '0.75rem 1.5rem',
+                        border: '4px solid hsl(var(--pixel-border))',
+                        boxShadow: '4px 4px 0 hsl(var(--pixel-shadow))',
+                        fontFamily: '"Press Start 2P", monospace, system-ui',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      Inline Style Button
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -339,7 +366,7 @@ ${layout.items.map((item, index) => {
               </div>
               <button
                 onClick={() => setMode('predefined')}
-                className="btn-minecraft press-start-2p-regular"
+                className="btn-minecraft"
               >
                 ← Back
               </button>

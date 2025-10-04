@@ -31,17 +31,19 @@ const ThemeToggle = () => {
   return (
     <button
       onClick={toggleTheme}
-      className="relative inline-flex h-12 w-24 items-center bg-card border-4 border-pixel-border transition-all duration-100 hover:translate-x-1 hover:translate-y-1"
+      className="relative inline-flex h-12 w-24 items-center bg-card border-4 transition-all duration-100 hover:translate-x-1 hover:translate-y-1"
       style={{ 
+        borderColor: isDark ? '#22c55e' : '#000000',
         boxShadow: '4px 4px 0 hsl(var(--pixel-shadow))'
       }}
     >
       <span className="absolute left-2 text-xl">{isDark ? '🌙' : '☀️'}</span>
-      <span className="absolute right-2 text-xl">{isDark ? '⭐' : '🌤️'}</span>
+      <span className="absolute right-5 text-xl">{isDark ? '⭐' : '🌤️'}</span>
       <span
-        className={`inline-block h-6 w-6 transform bg-primary transition-transform duration-200 border-2 border-pixel-border ${
+        className={`inline-block h-6 w-6 transform bg-primary transition-transform duration-200 border-2 ${
           isDark ? 'translate-x-12' : 'translate-x-1'
         }`}
+        style={{ borderColor: isDark ? '#16a34a' : '#000000' }}
       />
       <span className="sr-only">Toggle theme</span>
     </button>
