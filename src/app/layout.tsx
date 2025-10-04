@@ -2,21 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-// Import Google Fonts
-const bitcountPropSingle = {
-  variable: "--font-bitcount-prop-single",
-  family: "Bitcount Prop Single",
-  weight: "100 900",
-  style: "normal",
-};
-
-const pressStart2P = {
-  variable: "--font-press-start-2p",
-  family: "Press Start 2P",
-  weight: "400",
-  style: "normal",
-};
-
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -39,12 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <style>
-          {`@import url('https://fonts.googleapis.com/css2?family=Bitcount+Prop+Single:wght@100..900&family=Press+Start+2P&display=swap');`}
-        </style>
-      </head>
-      <body className={`${geistSans.variable} ${geistMono.variable} ${bitcountPropSingle.variable} ${pressStart2P.variable}`}>
+      <body className={`${geistSans.variable} ${geistMono.variable}`}>
         {children}
       </body>
     </html>

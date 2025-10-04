@@ -11,6 +11,10 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
+    /* Font Variables */
+    --font-bitcount-prop-single: "Bitcount Prop Single", system-ui;
+    --font-press-start-2p: "Press Start 2P", system-ui;
+
     /* Light Mode - White & Green */
     --background: 0 0% 100%; /* Pure white */
     --foreground: 0 0% 10%; /* Near black */

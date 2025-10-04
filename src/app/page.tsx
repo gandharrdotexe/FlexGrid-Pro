@@ -232,6 +232,20 @@ ${layout.items.map((item, index) => {
               </div>
             </div>
 
+            {/* Font Test Section */}
+            <div className="space-y-4">
+              <div className="pixel-box max-w-2xl mx-auto p-6">
+                <h3 className="text-lg font-pixel text-foreground mb-4">🔤 Font Test</h3>
+                <div className="space-y-3">
+                  <div className="press-start-2p-regular text-sm text-primary">Press Start 2P: Retro Gaming Font</div>
+                  <div className="bitcount-prop-single text-base text-foreground">Bitcount Prop Single: Modern Variable Font</div>
+                  <div className="bitcount-prop-single-bold text-lg text-primary">Bitcount Prop Single Bold: Heavy Weight</div>
+                  <div className="font-bitcount text-sm text-muted-foreground">Tailwind font-bitcount: Utility Class</div>
+                  <div className="font-press-start text-xs text-accent">Tailwind font-press-start: Utility Class</div>
+                </div>
+              </div>
+            </div>
+
             {/* Mode Selection */}
             <div className="grid md:grid-cols-2 gap-10 max-w-5xl mx-auto">
               <div
