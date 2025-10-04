@@ -1,96 +1,348 @@
-import Image from "next/image";
-import styles from "./page.module.css";
-import "./globals.css";
+"use client"
+import React, { useState } from 'react';
+import { ThemeProvider } from '@/app/context/ThemeContext';
+import ThemeToggle from '@/app/components/ThemeToggle';
 
-export default function Home() {
+
+type Mode = 'home' | 'predefined' | 'custom' | 'preview';
+
+const Index = () => {
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>src/app/page.tsx</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <ThemeProvider>
+      <MainApp />
+    </ThemeProvider>
+  );
+};
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
+const MainApp = () => {
+  const [mode, setMode] = useState<Mode>('home');
+  const [currentLayout, setCurrentLayout] = useState<any>(null);
+  const [codeMode, setCodeMode] = useState<'tailwind' | 'external'>('tailwind');
+
+  const generateHTML = (layout: any) => {
+    if (!layout) return '';
+    
+    if (codeMode === 'tailwind') {
+      // For CSS Grid layouts from custom builder
+      if (layout.gridSettings) {
+        const gapClass = layout.gridSettings.gap <= 4 ? 'gap-1' : 
+                        layout.gridSettings.gap <= 8 ? 'gap-2' : 
+                        layout.gridSettings.gap <= 16 ? 'gap-4' : 'gap-6';
+        
+        return `<div class="grid ${gapClass} w-full h-80" style="grid-template-columns: repeat(${layout.gridSettings.columns}, 1fr); grid-template-rows: repeat(${layout.gridSettings.rows}, 1fr);">
+${layout.items.map(item => `  <div class="flex items-center justify-center rounded-lg text-white font-bold" style="grid-column: ${item.gridArea.columnStart} / ${item.gridArea.columnEnd}; grid-row: ${item.gridArea.rowStart} / ${item.gridArea.rowEnd}; background-color: ${item.backgroundColor};">${item.content}</div>`).join('\n')}
+</div>`;
+      }
+      
+      // For predefined layouts
+      return `<div class="${layout.container}">
+${layout.items.map(item => `  <div class="${item.className}">${item.content}</div>`).join('\n')}
+</div>`;
+    } else {
+      // External CSS mode
+      if (layout.gridSettings) {
+        return `<div class="grid-container">
+${layout.items.map((item, index) => `  <div class="grid-item-${index + 1}">${item.content}</div>`).join('\n')}
+</div>`;
+      }
+      
+      return `<div class="container">
+${layout.items.map((item, index) => `  <div class="item-${index + 1}">${item.content}</div>`).join('\n')}
+</div>`;
+    }
+  };
+
+  const generateCSS = (layout: any, mode: 'tailwind' | 'external') => {
+    if (!layout) return '';
+    
+    if (mode === 'tailwind') {
+      // For CSS Grid layouts, show proper Tailwind approach
+      if (layout.gridSettings) {
+        const gapClass = layout.gridSettings.gap <= 4 ? 'gap-1' : 
+                        layout.gridSettings.gap <= 8 ? 'gap-2' : 
+                        layout.gridSettings.gap <= 16 ? 'gap-4' : 'gap-6';
+        
+        return `/* Tailwind CSS Classes Used:
+Container: grid ${gapClass} w-full h-80
+Items: flex items-center justify-center rounded-lg text-white font-bold
+
+Grid template defined via inline styles:
+grid-template-columns: repeat(${layout.gridSettings.columns}, 1fr)
+grid-template-rows: repeat(${layout.gridSettings.rows}, 1fr)
+
+${layout.items.map((item, index) => 
+`Box ${index + 1}: 
+  grid-column: ${item.gridArea.columnStart} / ${item.gridArea.columnEnd}
+  grid-row: ${item.gridArea.rowStart} / ${item.gridArea.rowEnd}
+  background-color: ${item.backgroundColor}`
+).join('\n\n')} */`;
+      }
+      
+      // For predefined layouts
+      return `/* Use the Tailwind classes directly in your HTML as shown above */`;
+    } else {
+      // External CSS mode
+      if (layout.gridSettings) {
+        return `.grid-container {
+  display: grid;
+  grid-template-columns: repeat(${layout.gridSettings.columns}, 1fr);
+  grid-template-rows: repeat(${layout.gridSettings.rows}, 1fr);
+  gap: ${layout.gridSettings.gap}px;
+  width: 100%;
+  height: 320px;
+}
+
+${layout.items.map((item, index) => 
+`.grid-item-${index + 1} {
+  grid-column: ${item.gridArea.columnStart} / ${item.gridArea.columnEnd};
+  grid-row: ${item.gridArea.rowStart} / ${item.gridArea.rowEnd};
+  background-color: ${item.backgroundColor};
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}`).join('\n\n')}`;
+      }
+
+      // Convert Tailwind classes to CSS for predefined layouts
+      const containerCSS = convertTailwindToCSS(layout.container);
+      return `.container {${containerCSS}
+}
+
+${layout.items.map((item, index) => {
+  const itemCSS = convertTailwindToCSS(item.className);
+  return `.item-${index + 1} {${itemCSS}
+  background-color: ${item.backgroundColor || '#6B73FF'};
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+  min-height: 50px;
+}`;
+}).join('\n\n')}`;
+    }
+  };
+
+  const convertTailwindToCSS = (tailwindClasses: string) => {
+    const classes = tailwindClasses.split(' ');
+    let css = '\n';
+    
+    classes.forEach(cls => {
+      switch (cls) {
+        case 'flex': css += '  display: flex;\n'; break;
+        case 'flex-col': css += '  flex-direction: column;\n'; break;
+        case 'flex-1': css += '  flex: 1;\n'; break;
+        case 'flex-2': css += '  flex: 2;\n'; break;
+        case 'gap-4': css += '  gap: 1rem;\n'; break;
+        case 'gap-6': css += '  gap: 1.5rem;\n'; break;
+        case 'gap-8': css += '  gap: 2rem;\n'; break;
+        case 'min-h-screen': css += '  min-height: 100vh;\n'; break;
+        case 'h-16': css += '  height: 4rem;\n'; break;
+        case 'h-96': css += '  height: 24rem;\n'; break;
+        case 'w-64': css += '  width: 16rem;\n'; break;
+        case 'grid': css += '  display: grid;\n'; break;
+        case 'grid-cols-1': css += '  grid-template-columns: repeat(1, minmax(0, 1fr));\n'; break;
+        case 'grid-cols-2': css += '  grid-template-columns: repeat(2, minmax(0, 1fr));\n'; break;
+        case 'grid-cols-3': css += '  grid-template-columns: repeat(3, minmax(0, 1fr));\n'; break;
+        case 'grid-cols-4': css += '  grid-template-columns: repeat(4, minmax(0, 1fr));\n'; break;
+        case 'md:grid-cols-2': css += '  @media (min-width: 768px) {\n    grid-template-columns: repeat(2, minmax(0, 1fr));\n  }\n'; break;
+        case 'lg:grid-cols-3': css += '  @media (min-width: 1024px) {\n    grid-template-columns: repeat(3, minmax(0, 1fr));\n  }\n'; break;
+        case 'col-span-2': css += '  grid-column: span 2 / span 2;\n'; break;
+        case 'row-span-2': css += '  grid-row: span 2 / span 2;\n'; break;
+        case 'flex-wrap': css += '  flex-wrap: wrap;\n'; break;
+        case 'items-stretch': css += '  align-items: stretch;\n'; break;
+        case 'justify-between': css += '  justify-content: space-between;\n'; break;
+      }
+    });
+    
+    return css;
+  };
+
+  const handleLayoutSelect = (layout: any) => {
+    setCurrentLayout(layout);
+    setMode('preview');
+  };
+
+  return (
+    <div className="min-h-screen bg-background transition-all duration-500 relative overflow-hidden">
+      {/* Pixel grid background pattern */}
+      <div className="absolute inset-0 pointer-events-none opacity-5">
+        <div className="w-full h-full" style={{
+          backgroundImage: `
+            linear-gradient(0deg, hsl(var(--pixel-border)) 1px, transparent 1px),
+            linear-gradient(90deg, hsl(var(--pixel-border)) 1px, transparent 1px)
+          `,
+          backgroundSize: '32px 32px'
+        }} />
+      </div>
+
+      {/* Floating pixel blocks */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-10 left-10 w-16 h-16 bg-primary/30 pixel-float" style={{ clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)' }} />
+        <div className="absolute top-40 right-20 w-12 h-12 bg-primary/20 pixel-float" style={{ animationDelay: '2s', clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)' }} />
+        <div className="absolute bottom-20 left-1/4 w-20 h-20 bg-primary/15 pixel-float" style={{ animationDelay: '4s', clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%)' }} />
+      </div>
+
+      {/* Header */}
+      <header className="relative bg-card border-b-4 border-pixel-border">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-6">
+              <button 
+                onClick={() => setMode('home')}
+                className="text-2xl font-pixel font-bold text-primary hover:scale-105 transition-all duration-200 pixel-glitch"
+              >
+                ⛏ FlexGrid Pro
+              </button>
+              {mode !== 'home' && (
+                <button
+                  onClick={() => setMode('home')}
+                  className="btn-minecraft text-xs"
+                >
+                  ← Back
+                </button>
+              )}
+            </div>
+            <ThemeToggle />
+          </div>
         </div>
+      </header>
+
+      {/* Main Content */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {mode === 'home' && (
+          <div className="text-center space-y-16 animate-slide-in-up">
+            {/* Hero Section */}
+            <div className="space-y-8 relative">
+              <div className="text-8xl pixel-float">⛏</div>
+              <h1 className="text-4xl md:text-5xl font-pixel font-bold text-primary leading-tight">
+                Minecraft Grid Builder
+              </h1>
+              <div className="pixel-box max-w-4xl mx-auto p-6">
+                <p className="text-base md:text-lg font-body text-foreground leading-relaxed">
+                  Craft epic, responsive layouts with blocky Minecraft-style grids! 
+                  Generate clean code instantly! ⚡
+                </p>
+              </div>
+            </div>
+
+            {/* Mode Selection */}
+            <div className="grid md:grid-cols-2 gap-10 max-w-5xl mx-auto">
+              <div
+                onClick={() => setMode('predefined')}
+                className="card-minecraft group cursor-pointer p-10"
+              >
+                <div className="text-6xl mb-6 pixel-glitch">📦</div>
+                <h3 className="text-xl md:text-2xl font-pixel font-bold text-foreground mb-6">
+                  Templates
+                </h3>
+                <p className="text-sm md:text-base font-body text-muted-foreground leading-relaxed">
+                  Choose from pre-built layouts! Quick start for pro designs.
+                </p>
+              </div>
+
+              <div
+                onClick={() => setMode('custom')}
+                className="card-minecraft group cursor-pointer p-10"
+              >
+                <div className="text-6xl mb-6 pixel-glitch" style={{ animationDelay: '1s' }}>🔨</div>
+                <h3 className="text-xl md:text-2xl font-pixel font-bold text-foreground mb-6">
+                  Custom Build
+                </h3>
+                <p className="text-sm md:text-base font-body text-muted-foreground leading-relaxed">
+                  Build unique layouts! Interactive grid system awaits.
+                </p>
+              </div>
+            </div>
+
+            {/* Features */}
+            <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+              <div className="card-minecraft p-8">
+                <div className="text-4xl mb-4 pixel-float">⚡</div>
+                <h4 className="font-pixel text-sm text-foreground mb-3">Fast</h4>
+                <p className="font-body text-sm text-muted-foreground">Real-time layouts!</p>
+              </div>
+              <div className="card-minecraft p-8">
+                <div className="text-4xl mb-4 pixel-float" style={{ animationDelay: '1s' }}>🎮</div>
+                <h4 className="font-pixel text-sm text-foreground mb-3">Blocky</h4>
+                <p className="font-body text-sm text-muted-foreground">Pixel perfect!</p>
+              </div>
+              <div className="card-minecraft p-8">
+                <div className="text-4xl mb-4 pixel-float" style={{ animationDelay: '2s' }}>📋</div>
+                <h4 className="font-pixel text-sm text-foreground mb-3">Export</h4>
+                <p className="font-body text-sm text-muted-foreground">Copy code fast!</p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {mode === 'predefined' && (
+          <div className="space-y-12 animate-slide-in-up">
+            <div className="text-center">
+              <div className="text-6xl mb-4 pixel-glitch">📦</div>
+              <h2 className="text-3xl md:text-4xl font-pixel font-bold text-foreground mb-6">
+                Layout Templates
+              </h2>
+              <div className="pixel-box max-w-2xl mx-auto p-6">
+                <p className="text-base font-body text-muted-foreground">
+                  Select from blocky Minecraft-style layouts!
+                </p>
+              </div>
+            </div>
+            <PredefinedLayouts onLayoutSelect={handleLayoutSelect} />
+          </div>
+        )}
+
+        {mode === 'custom' && (
+          <CustomGridBuilder onLayoutGenerate={handleLayoutSelect} />
+        )}
+
+        {mode === 'preview' && currentLayout && (
+          <div className="space-y-12 animate-slide-in-up">
+            <div className="text-center">
+              <div className="text-6xl mb-4 pixel-glitch">⚒</div>
+              <h2 className="text-3xl md:text-4xl font-pixel font-bold text-foreground mb-6">
+                Your Creation
+              </h2>
+              <div className="pixel-box max-w-2xl mx-auto mb-6 p-6">
+                <p className="text-base font-body text-muted-foreground">
+                  Here's your layout with code! ✨
+                </p>
+              </div>
+              <button
+                onClick={() => setMode('predefined')}
+                className="btn-minecraft"
+              >
+                ← Back
+              </button>
+            </div>
+
+            <div className="grid lg:grid-cols-2 gap-8">
+              <div className="space-y-4">
+                <h3 className="text-base font-pixel text-foreground">Preview</h3>
+                <FlexboxPreview layout={currentLayout} />
+              </div>
+
+              <div>
+                <CodeOutput
+                  html={generateHTML(currentLayout)}
+                  css={generateCSS(currentLayout, codeMode)}
+                  mode={codeMode}
+                  onModeChange={setCodeMode}
+                />
+              </div>
+            </div>
+          </div>
+        )}
       </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
     </div>
   );
-}
+};
+
+export default Index;
