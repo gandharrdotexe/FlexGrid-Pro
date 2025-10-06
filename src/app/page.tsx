@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { ThemeProvider, useTheme } from '@/app/context/ThemeContext';
 import ThemeToggle from '@/app/components/ThemeToggle';
+import PredefinedLayouts from '@/app/components/PredefinedLayouts';
 
 
 type Mode = 'home' | 'predefined' | 'custom' | 'preview';
