@@ -468,160 +468,160 @@ const Index = () => {
 };
 
 const MainApp = () => {
-  const [mode, setMode] = useState<Mode>('home');
-  const [currentLayout, setCurrentLayout] = useState<Layout | null>(null);
-  const [codeMode, setCodeMode] = useState<'tailwind' | 'external'>('tailwind');
+  // const [mode, setMode] = useState<Mode>('home');
+  // const [currentLayout, setCurrentLayout] = useState<Layout | null>(null);
+  // const [codeMode, setCodeMode] = useState<'tailwind' | 'external'>('tailwind');
   const { isDark } = useTheme();
 
-  const generateHTML = (layout: Layout | null) => {
-    if (!layout) return '';
+//   const generateHTML = (layout: Layout | null) => {
+//     if (!layout) return '';
     
-    if (codeMode === 'tailwind') {
-      // For CSS Grid layouts from custom builder
-      if (layout.gridSettings) {
-        const gapClass = layout.gridSettings.gap <= 4 ? 'gap-1' : 
-                        layout.gridSettings.gap <= 8 ? 'gap-2' : 
-                        layout.gridSettings.gap <= 16 ? 'gap-4' : 'gap-6';
+//     if (codeMode === 'tailwind') {
+//       // For CSS Grid layouts from custom builder
+//       if (layout.gridSettings) {
+//         const gapClass = layout.gridSettings.gap <= 4 ? 'gap-1' : 
+//                         layout.gridSettings.gap <= 8 ? 'gap-2' : 
+//                         layout.gridSettings.gap <= 16 ? 'gap-4' : 'gap-6';
         
-        return `<div class="grid ${gapClass} w-full h-80" style="grid-template-columns: repeat(${layout.gridSettings.columns}, 1fr); grid-template-rows: repeat(${layout.gridSettings.rows}, 1fr);">
-${layout.items.map(item => `  <div class="flex items-center justify-center rounded-lg text-white font-bold" style="grid-column: ${item.gridArea?.columnStart} / ${item.gridArea?.columnEnd}; grid-row: ${item.gridArea?.rowStart} / ${item.gridArea?.rowEnd}; background-color: ${item.backgroundColor};">${item.content}</div>`).join('\n')}
-</div>`;
-      }
+//         return `<div class="grid ${gapClass} w-full h-80" style="grid-template-columns: repeat(${layout.gridSettings.columns}, 1fr); grid-template-rows: repeat(${layout.gridSettings.rows}, 1fr);">
+// ${layout.items.map(item => `  <div class="flex items-center justify-center rounded-lg text-white font-bold" style="grid-column: ${item.gridArea?.columnStart} / ${item.gridArea?.columnEnd}; grid-row: ${item.gridArea?.rowStart} / ${item.gridArea?.rowEnd}; background-color: ${item.backgroundColor};">${item.content}</div>`).join('\n')}
+// </div>`;
+//       }
       
-      // For predefined layouts
-      return `<div class="${layout.container || ''}">
-${layout.items.map(item => `  <div class="${item.className || ''}">${item.content}</div>`).join('\n')}
-</div>`;
-    } else {
-      // External CSS mode
-      if (layout.gridSettings) {
-        return `<div class="grid-container">
-${layout.items.map((item, index) => `  <div class="grid-item-${index + 1}">${item.content}</div>`).join('\n')}
-</div>`;
-      }
+//       // For predefined layouts
+//       return `<div class="${layout.container || ''}">
+// ${layout.items.map(item => `  <div class="${item.className || ''}">${item.content}</div>`).join('\n')}
+// </div>`;
+//     } else {
+//       // External CSS mode
+//       if (layout.gridSettings) {
+//         return `<div class="grid-container">
+// ${layout.items.map((item, index) => `  <div class="grid-item-${index + 1}">${item.content}</div>`).join('\n')}
+// </div>`;
+//       }
       
-      return `<div class="container">
-${layout.items.map((item, index) => `  <div class="item-${index + 1}">${item.content}</div>`).join('\n')}
-</div>`;
-    }
-  };
+//       return `<div class="container">
+// ${layout.items.map((item, index) => `  <div class="item-${index + 1}">${item.content}</div>`).join('\n')}
+// </div>`;
+//     }
+//   };
 
-  const generateCSS = (layout: Layout | null, mode: 'tailwind' | 'external') => {
-    if (!layout) return '';
+//   const generateCSS = (layout: Layout | null, mode: 'tailwind' | 'external') => {
+//     if (!layout) return '';
     
-    if (mode === 'tailwind') {
-      // For CSS Grid layouts, show proper Tailwind approach
-      if (layout.gridSettings) {
-        const gapClass = layout.gridSettings.gap <= 4 ? 'gap-1' : 
-                        layout.gridSettings.gap <= 8 ? 'gap-2' : 
-                        layout.gridSettings.gap <= 16 ? 'gap-4' : 'gap-6';
+//     if (mode === 'tailwind') {
+//       // For CSS Grid layouts, show proper Tailwind approach
+//       if (layout.gridSettings) {
+//         const gapClass = layout.gridSettings.gap <= 4 ? 'gap-1' : 
+//                         layout.gridSettings.gap <= 8 ? 'gap-2' : 
+//                         layout.gridSettings.gap <= 16 ? 'gap-4' : 'gap-6';
         
-        return `/* Tailwind CSS Classes Used:
-Container: grid ${gapClass} w-full h-80
-Items: flex items-center justify-center rounded-lg text-white font-bold
+//         return `/* Tailwind CSS Classes Used:
+// Container: grid ${gapClass} w-full h-80
+// Items: flex items-center justify-center rounded-lg text-white font-bold
 
-Grid template defined via inline styles:
-grid-template-columns: repeat(${layout.gridSettings.columns}, 1fr)
-grid-template-rows: repeat(${layout.gridSettings.rows}, 1fr)
+// Grid template defined via inline styles:
+// grid-template-columns: repeat(${layout.gridSettings.columns}, 1fr)
+// grid-template-rows: repeat(${layout.gridSettings.rows}, 1fr)
 
-${layout.items.map((item, index) => 
-`Box ${index + 1}: 
-  grid-column: ${item.gridArea?.columnStart} / ${item.gridArea?.columnEnd}
-  grid-row: ${item.gridArea?.rowStart} / ${item.gridArea?.rowEnd}
-  background-color: ${item.backgroundColor}`
-).join('\n\n')} */`;
-      }
+// ${layout.items.map((item, index) => 
+// `Box ${index + 1}: 
+//   grid-column: ${item.gridArea?.columnStart} / ${item.gridArea?.columnEnd}
+//   grid-row: ${item.gridArea?.rowStart} / ${item.gridArea?.rowEnd}
+//   background-color: ${item.backgroundColor}`
+// ).join('\n\n')} */`;
+//       }
       
-      // For predefined layouts
-      return `/* Use the Tailwind classes directly in your HTML as shown above */`;
-    } else {
-      // External CSS mode
-      if (layout.gridSettings) {
-        return `.grid-container {
-  display: grid;
-  grid-template-columns: repeat(${layout.gridSettings.columns}, 1fr);
-  grid-template-rows: repeat(${layout.gridSettings.rows}, 1fr);
-  gap: ${layout.gridSettings.gap}px;
-  width: 100%;
-  height: 320px;
-}
+//       // For predefined layouts
+//       return `/* Use the Tailwind classes directly in your HTML as shown above */`;
+//     } else {
+//       // External CSS mode
+//       if (layout.gridSettings) {
+//         return `.grid-container {
+//   display: grid;
+//   grid-template-columns: repeat(${layout.gridSettings.columns}, 1fr);
+//   grid-template-rows: repeat(${layout.gridSettings.rows}, 1fr);
+//   gap: ${layout.gridSettings.gap}px;
+//   width: 100%;
+//   height: 320px;
+// }
 
-${layout.items.map((item, index) => 
-`.grid-item-${index + 1} {
-  grid-column: ${item.gridArea?.columnStart} / ${item.gridArea?.columnEnd};
-  grid-row: ${item.gridArea?.rowStart} / ${item.gridArea?.rowEnd};
-  background-color: ${item.backgroundColor};
-  border-radius: 0.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-weight: 600;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
-}`).join('\n\n')}`;
-      }
+// ${layout.items.map((item, index) => 
+// `.grid-item-${index + 1} {
+//   grid-column: ${item.gridArea?.columnStart} / ${item.gridArea?.columnEnd};
+//   grid-row: ${item.gridArea?.rowStart} / ${item.gridArea?.rowEnd};
+//   background-color: ${item.backgroundColor};
+//   border-radius: 0.5rem;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   color: white;
+//   font-weight: 600;
+//   text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+// }`).join('\n\n')}`;
+//       }
 
-      // Convert Tailwind classes to CSS for predefined layouts
-      const containerCSS = convertTailwindToCSS(layout.container || '');
-      return `.container {${containerCSS}
-}
+//       // Convert Tailwind classes to CSS for predefined layouts
+//       const containerCSS = convertTailwindToCSS(layout.container || '');
+//       return `.container {${containerCSS}
+// }
 
-${layout.items.map((item, index) => {
-  const itemCSS = convertTailwindToCSS(item.className || '');
-  return `.item-${index + 1} {${itemCSS}
-  background-color: ${item.backgroundColor || '#6B73FF'};
-  border-radius: 0.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-weight: 600;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
-  min-height: 50px;
-}`;
-}).join('\n\n')}`;
-    }
-  };
+// ${layout.items.map((item, index) => {
+//   const itemCSS = convertTailwindToCSS(item.className || '');
+//   return `.item-${index + 1} {${itemCSS}
+//   background-color: ${item.backgroundColor || '#6B73FF'};
+//   border-radius: 0.5rem;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   color: white;
+//   font-weight: 600;
+//   text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+//   min-height: 50px;
+// }`;
+// }).join('\n\n')}`;
+//     }
+//   };
 
-  const convertTailwindToCSS = (tailwindClasses: string) => {
-    const classes = tailwindClasses.split(' ');
-    let css = '\n';
+//   const convertTailwindToCSS = (tailwindClasses: string) => {
+//     const classes = tailwindClasses.split(' ');
+//     let css = '\n';
     
-    classes.forEach(cls => {
-      switch (cls) {
-        case 'flex': css += '  display: flex;\n'; break;
-        case 'flex-col': css += '  flex-direction: column;\n'; break;
-        case 'flex-1': css += '  flex: 1;\n'; break;
-        case 'flex-2': css += '  flex: 2;\n'; break;
-        case 'gap-4': css += '  gap: 1rem;\n'; break;
-        case 'gap-6': css += '  gap: 1.5rem;\n'; break;
-        case 'gap-8': css += '  gap: 2rem;\n'; break;
-        case 'min-h-screen': css += '  min-height: 100vh;\n'; break;
-        case 'h-16': css += '  height: 4rem;\n'; break;
-        case 'h-96': css += '  height: 24rem;\n'; break;
-        case 'w-64': css += '  width: 16rem;\n'; break;
-        case 'grid': css += '  display: grid;\n'; break;
-        case 'grid-cols-1': css += '  grid-template-columns: repeat(1, minmax(0, 1fr));\n'; break;
-        case 'grid-cols-2': css += '  grid-template-columns: repeat(2, minmax(0, 1fr));\n'; break;
-        case 'grid-cols-3': css += '  grid-template-columns: repeat(3, minmax(0, 1fr));\n'; break;
-        case 'grid-cols-4': css += '  grid-template-columns: repeat(4, minmax(0, 1fr));\n'; break;
-        case 'md:grid-cols-2': css += '  @media (min-width: 768px) {\n    grid-template-columns: repeat(2, minmax(0, 1fr));\n  }\n'; break;
-        case 'lg:grid-cols-3': css += '  @media (min-width: 1024px) {\n    grid-template-columns: repeat(3, minmax(0, 1fr));\n  }\n'; break;
-        case 'col-span-2': css += '  grid-column: span 2 / span 2;\n'; break;
-        case 'row-span-2': css += '  grid-row: span 2 / span 2;\n'; break;
-        case 'flex-wrap': css += '  flex-wrap: wrap;\n'; break;
-        case 'items-stretch': css += '  align-items: stretch;\n'; break;
-        case 'justify-between': css += '  justify-content: space-between;\n'; break;
-      }
-    });
+//     classes.forEach(cls => {
+//       switch (cls) {
+//         case 'flex': css += '  display: flex;\n'; break;
+//         case 'flex-col': css += '  flex-direction: column;\n'; break;
+//         case 'flex-1': css += '  flex: 1;\n'; break;
+//         case 'flex-2': css += '  flex: 2;\n'; break;
+//         case 'gap-4': css += '  gap: 1rem;\n'; break;
+//         case 'gap-6': css += '  gap: 1.5rem;\n'; break;
+//         case 'gap-8': css += '  gap: 2rem;\n'; break;
+//         case 'min-h-screen': css += '  min-height: 100vh;\n'; break;
+//         case 'h-16': css += '  height: 4rem;\n'; break;
+//         case 'h-96': css += '  height: 24rem;\n'; break;
+//         case 'w-64': css += '  width: 16rem;\n'; break;
+//         case 'grid': css += '  display: grid;\n'; break;
+//         case 'grid-cols-1': css += '  grid-template-columns: repeat(1, minmax(0, 1fr));\n'; break;
+//         case 'grid-cols-2': css += '  grid-template-columns: repeat(2, minmax(0, 1fr));\n'; break;
+//         case 'grid-cols-3': css += '  grid-template-columns: repeat(3, minmax(0, 1fr));\n'; break;
+//         case 'grid-cols-4': css += '  grid-template-columns: repeat(4, minmax(0, 1fr));\n'; break;
+//         case 'md:grid-cols-2': css += '  @media (min-width: 768px) {\n    grid-template-columns: repeat(2, minmax(0, 1fr));\n  }\n'; break;
+//         case 'lg:grid-cols-3': css += '  @media (min-width: 1024px) {\n    grid-template-columns: repeat(3, minmax(0, 1fr));\n  }\n'; break;
+//         case 'col-span-2': css += '  grid-column: span 2 / span 2;\n'; break;
+//         case 'row-span-2': css += '  grid-row: span 2 / span 2;\n'; break;
+//         case 'flex-wrap': css += '  flex-wrap: wrap;\n'; break;
+//         case 'items-stretch': css += '  align-items: stretch;\n'; break;
+//         case 'justify-between': css += '  justify-content: space-between;\n'; break;
+//       }
+//     });
     
-    return css;
-  };
+//     return css;
+//   };
 
-  const handleLayoutSelect = (layout: Layout) => {
-    setCurrentLayout(layout);
-    setMode('preview');
-  };
+//   const handleLayoutSelect = (layout: Layout) => {
+//     setCurrentLayout(layout);
+//     setMode('preview');
+//   };
 
   return (
     <div className="min-h-screen bg-background press-start-2p-regular transition-all duration-500 relative overflow-hidden">
