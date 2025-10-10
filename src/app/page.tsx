@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { ThemeProvider, useTheme } from '@/app/context/ThemeContext';
 import ThemeToggle from '@/app/components/ThemeToggle';
 import PredefinedLayouts from '@/app/components/PredefinedLayouts';
-import Logo from '@/app/FlexGridPro_logo2-rem.png';
+
 import Logo2 from '@/app/FlexGridPro-finalLogo-removebg-preview.png';
 import Image from 'next/image';
 
@@ -344,7 +344,7 @@ ${layout.items.map((item, index) => {
           </div>
         )}
 
-        {mode === 'predefined' && (
+        {/* {mode === 'predefined' && (
           <div className="space-y-12 animate-slide-in-up">
             <div className="text-center">
               <div className="text-6xl mb-4 pixel-glitch">📦</div>
@@ -401,7 +401,7 @@ ${layout.items.map((item, index) => {
               </div>
             </div>
           </div>
-        )}
+        )} */}
       </main>
     </div>
   );
