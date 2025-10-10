@@ -4,7 +4,9 @@ import { ThemeProvider, useTheme } from '@/app/context/ThemeContext';
 import ThemeToggle from '@/app/components/ThemeToggle';
 import PredefinedLayouts from '@/app/components/PredefinedLayouts';
 import Logo from '@/app/FlexGridPro_logo2-rem.png';
+import Logo2 from '@/app/FlexGridPro-finalLogo-removebg-preview.png';
 import Image from 'next/image';
+
 
 type Mode = 'home' | 'predefined' | 'custom' | 'preview';
 
@@ -215,9 +217,9 @@ ${layout.items.map((item, index) => {
                 className="flex items-center space-x-2 text-2xl press-start-2p-regular font-bold text-primary hover:scale-105 transition-all duration-200 pixel-glitch"
               >
                 <Image 
-          src={Logo} 
+          src={Logo2} 
           alt="FlexGrid Pro" 
-          width={50} 
+          width={60} 
           height={100}
           className="pixel-glitch"
         />
