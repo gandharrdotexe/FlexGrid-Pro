@@ -851,8 +851,10 @@
 "use client"
 import React, { useState, useEffect } from 'react';
 import { ThemeProvider, useTheme } from '@/app/context/ThemeContext';
+import Image from 'next/image';
 import ThemeToggle from '@/app/components/ThemeToggle';
 import PredefinedLayouts from '@/app/components/PredefinedLayouts';
+import Logo2 from '@/app/FlexGridPro-finalLogo-removebg-preview.png'
 // import CustomGridBuilder from '@/app/components/CustomGridBuilder';
 import FlexboxPreview from '@/app/components/FlexboxPreview';
 // import CodeOutput from '@/app/components/CodeOutput';
@@ -1063,9 +1065,18 @@ ${layout.items.map((item, index) => {
             <div className="flex items-center space-x-6">
               <button 
                 onClick={() => setMode('home')}
-                className="text-2xl press-start-2p-regular font-bold text-primary hover:scale-105 transition-all duration-200 pixel-glitch"
+                className="flex items-center space-x-2 text-2xl press-start-2p-regular font-bold text-primary hover:scale-105 transition-all duration-200 pixel-glitch"
               >
-                ⛏ FlexGrid Pro
+                <Image 
+          src={Logo2} 
+          alt="FlexGrid Pro" 
+          width={60} 
+          height={100}
+          className="pixel-glitch"
+        />
+        <span className="text-2xl press-start-2p-regular font-bold text-primary pixel-glitch">
+          FlexGrid Pro
+        </span>
               </button>
               {mode !== 'home' && (
                 <button
@@ -1076,7 +1087,7 @@ ${layout.items.map((item, index) => {
                 </button>
               )}
             </div>
-            <ThemeToggle />
+            <ThemeToggle/>
           </div>
         </div>
       </header>
@@ -1087,15 +1098,17 @@ ${layout.items.map((item, index) => {
           <div className="text-center space-y-16 animate-slide-in-up">
             {/* Hero Section */}
             <div className="space-y-8 relative">
-              <div className="text-8xl pixel-float">⛏</div>
+              <div className="flex justify-center items-center text-8xl pixel-float">
+                <Image src="/hammer.png" alt="Minecraft Logo" width={100} height={100} />
+              </div>
               <h1 className="text-4xl md:text-5xl press-start-2p-regular font-bold text-primary leading-tight">
                 Minecraft Grid Builder
               </h1>
               <div className="pixel-box max-w-4xl mx-auto p-6">
-                <p className="text-base md:text-sm press-start-2p-regular font-body text-foreground leading-relaxed ">
-                  Craft epic, responsive layouts with blocky Minecraft-style grids! 
-                  Generate clean code instantly! ⚡
-                </p>
+              <p className="text-xs md:text-[12px] press-start-2p-regular font-body text-foreground leading-relaxed">
+  Craft epic, responsive layouts with blocky Minecraft-style grids! 
+  Generate clean code instantly! ⚡
+</p>
               </div>
             </div>
 
@@ -1109,7 +1122,7 @@ ${layout.items.map((item, index) => {
                 <h3 className="text-xl md:text-2xl press-start-2p-regular font-bold text-foreground mb-6">
                   Templates
                 </h3>
-                <p className="text-sm md:text-base font-body text-muted-foreground leading-relaxed">
+                <p className="text-sm md:text-[12px] press-start-2p-regular font-body text-muted-foreground leading-relaxed">
                   Choose from pre-built layouts! Quick start for pro designs.
                 </p>
               </div>
@@ -1122,7 +1135,7 @@ ${layout.items.map((item, index) => {
                 <h3 className="text-xl md:text-2xl press-start-2p-regular font-bold text-foreground mb-6">
                   Custom Build
                 </h3>
-                <p className="text-sm md:text-base font-body text-muted-foreground leading-relaxed">
+                <p className="text-sm md:text-[12px] press-start-2p-regular font-body text-muted-foreground leading-relaxed">
                   Build unique layouts! Interactive grid system awaits.
                 </p>
               </div>
@@ -1133,17 +1146,17 @@ ${layout.items.map((item, index) => {
               <div className="card-minecraft p-8">
                 <div className="text-4xl mb-4 pixel-float">⚡</div>
                 <h4 className="press-start-2p-regular text-sm text-foreground mb-3">Fast</h4>
-                <p className="font-body text-sm text-muted-foreground">Real-time layouts!</p>
+                <p className="text-sm md:text-[12px] press-start-2p-regular font-body text-muted-foreground">Real-time layouts!</p>
               </div>
               <div className="card-minecraft p-8">
                 <div className="text-4xl mb-4 pixel-float" style={{ animationDelay: '1s' }}>🎮</div>
                 <h4 className="press-start-2p-regular text-sm text-foreground mb-3">Blocky</h4>
-                <p className="font-body text-sm text-muted-foreground">Pixel perfect!</p>
+                <p className="text-sm md:text-[12px] press-start-2p-regular font-body text-muted-foreground">Pixel perfect!</p>
               </div>
               <div className="card-minecraft p-8">
                 <div className="text-4xl mb-4 pixel-float" style={{ animationDelay: '2s' }}>📋</div>
                 <h4 className="press-start-2p-regular text-sm text-foreground mb-3">Export</h4>
-                <p className="font-body text-sm text-muted-foreground">Copy code fast!</p>
+                <p className="text-sm md:text-[12px] press-start-2p-regular font-body text-muted-foreground">Copy code fast!</p>
               </div>
             </div>
           </div>
@@ -1157,7 +1170,7 @@ ${layout.items.map((item, index) => {
                 Layout Templates
               </h2>
               <div className="pixel-box max-w-2xl mx-auto p-6">
-                <p className="text-base font-body text-muted-foreground">
+                <p className="text-sm md:text-[12px] press-start-2p-regular font-body text-muted-foreground">
                   Select from blocky Minecraft-style layouts!
                 </p>
               </div>
@@ -1178,7 +1191,7 @@ ${layout.items.map((item, index) => {
                 Your Creation
               </h2>
               <div className="pixel-box max-w-2xl mx-auto mb-6 p-6">
-                <p className="text-base font-body text-muted-foreground">
+                <p className="text-sm md:text-[12px] press-start-2p-regular font-body text-muted-foreground">
                   Here's your layout with code! ✨
                 </p>
               </div>
