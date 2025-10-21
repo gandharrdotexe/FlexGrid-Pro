@@ -107,13 +107,11 @@ Copy the generated HTML and CSS directly into your project!
 
 ## 🛠 Tech Stack
 
-- **Framework**: React 18.3.1
-- **Build Tool**: Vite
+- **Framework**: Next.js 14/15 (App Router)
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS 3.4
-- **UI Components**: shadcn/ui
 - **Icons**: Lucide React
-- **Routing**: React Router DOM
+- **Routing**: Next.js App Router (built-in)
 
 ## 📁 Project Structure
 
