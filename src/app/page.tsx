@@ -1209,14 +1209,7 @@ ${layout.items.map((item, index) => {
                 <FlexboxPreview layout={currentLayout} />
               </div>
 
-              <div>
-                <CodeOutput
-                  html={generateHTML(currentLayout)}
-                  css={generateCSS(currentLayout, codeMode)}
-                  mode={codeMode}
-                  onModeChange={setCodeMode}
-                />
-              </div>
+              
             </div>
           </div>
         )}
