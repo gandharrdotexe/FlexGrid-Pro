@@ -1206,7 +1206,7 @@ ${layout.items.map((item, index) => {
             <div className="grid lg:grid-cols-2 gap-8">
               <div className="space-y-4">
                 <h3 className="text-base press-start-2p-regular text-foreground">Preview</h3>
-                <FlexboxPreview layout={currentLayout} />
+                
               </div>
 
               <div>
