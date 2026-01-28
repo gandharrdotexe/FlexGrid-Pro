@@ -1,4 +1,4 @@
-# ⛏ FlexGrid Pro - Minecraft Grid Builder
+# ⛏ FlexGrid Pro - Minecraft-themed Grid Builder
 
 A Minecraft-inspired CSS Grid and Flexbox layout builder with blocky pixel-art styling. Craft epic, responsive layouts and generate clean code instantly!
 
